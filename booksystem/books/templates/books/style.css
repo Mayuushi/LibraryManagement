@@ -1,0 +1,325 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Layout Container */
+  .layout {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar Styling */
+  /* Sidebar Styling */
+.sidebar {
+    position: fixed; /* Fix the sidebar in place */
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 100vh; /* Full height */
+    background: linear-gradient(to bottom, #f05a28, #ff7744);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+  
+  .logo img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #555;
+    font-size: 1rem;
+  }
+  
+  .menu a i {
+    font-size: 1.2rem;
+    margin-right: 10px;
+  }
+
+  .menu {
+    margin-bottom: 400px;
+  }
+  
+  .footer a {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #999;
+    font-size: 0.9rem;
+  }
+  
+  /* Main Content Styling */
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Top Bar Styling */
+  /* Top Bar Styling */
+.topbar {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, #f05a28, #ff7744);
+    padding: 10px 20px;
+    padding-left: 50px; /* Adds space for the sidebar */
+    box-sizing: border-box;
+}
+
+  
+  .search-section {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: auto;
+  }
+  
+  .filter {
+    border: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 0.9rem;
+    margin-right: 5px;
+  }
+  
+  .search-input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 0.9rem;
+    flex-grow: 1;
+  }
+  
+  .search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .option-btn, .profile-btn {
+    background: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .icon-lang, .icon-clock, .icon-calendar, .icon-dropdown {
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+  
+  /* Content Area Styling */
+  .content {
+    padding: 20px;
+    background: #f9f9f9;
+    height: 100%;
+  }
+
+  /* Main Content Styling */
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px; /* Adjust based on sidebar width */
+    padding: 0px; /* Adds some inner spacing */
+}
+
+  
+  /* Today's Quote Card */
+  .quote-card {
+    background: linear-gradient(45deg, #ff7744, #a367dc);
+    padding: 20px;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    max-width: 300px;
+  }
+  
+  .quote-text {
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+  
+  .quote-author {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+
+  .quote-news-container {
+    display: flex;
+    gap: 20px; /* Space between the quote and news rack */
+    margin-bottom: 20px; /* Space below the container */
+    align-items: flex-start; /* Align items to the top */
+}
+  
+  /* News Rack Section */
+  .news-rack {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start; /* Adjust alignment if needed */
+  }
+  
+  .news-carousel {
+    display: flex;
+    overflow-x: auto;
+    padding-left: 10px;
+  }
+  
+  .news-carousel .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 5px; /* Smaller padding around images */
+    margin-right: 10px;
+    min-width: 120px; /* Adjust width for each image card */
+    text-align: center;
+  }
+  
+  .news-carousel .card img {
+    width: 100px; /* Set width for images */
+    height: 80px; /* Set height for images */
+    object-fit: cover; /* Ensures images fill the space without distortion */
+    border-radius: 5px;
+  }
+  
+  
+  .section-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    background: #ff7744;
+    color: #fff;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+  }
+  
+  .news-carousel {
+    display: flex;
+    overflow-x: auto;
+    padding-left: 10px;
+  }
+  
+  .news-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-right: 10px;
+    min-width: 100px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Section Heading */
+  .section-heading {
+    font-size: 1.5rem;
+    margin: 20px 0 10px;
+  }
+  
+  /* Cards Container */
+  .cards-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+  }
+  
+  /* Individual Card */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    min-width: 150px;
+  }
+  
+  .card img {
+    width: 100px; /* Adjust width as needed */
+    height: 150px; /* Adjust height as needed */
+    object-fit: cover; /* Ensures image fills the space without stretching */
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .card p {
+    margin: 5px 0;
+  }
+
+  .cards-container .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    width: 150px; /* Width for each card */
+  }
+  
+  .cards-container .card img {
+    width: 100%;
+    height: 150px; /* Fixed height to keep size consistent */
+    object-fit: cover; /* Keeps the aspect ratio */
+    border-radius: 5px;
+    margin-bottom: 10px; /* Space between image and text */
+  }
+  
+  .card-content {
+    font-size: 0.9rem;
+    line-height: 1.2;
+    color: #333;
+  }
+  
+  .book-title {
+    font-weight: bold;
+    margin: 5px 0;
+    font-size: 0.95rem;
+  }
+  
+  .book-description {
+    color: #555;
+    margin: 5px 0;
+    font-size: 0.85rem;
+  }
+  
+  .book-rating {
+    color: #f05a28;
+    font-weight: bold;
+    font-size: 0.85rem;
+  }
+  
+
+
+  
+  

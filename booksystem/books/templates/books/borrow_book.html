@@ -1,0 +1,9 @@
+<!-- books/templates/books/borrow_book.html -->
+<h1>Borrow {{ book.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="borrower_name">Your Name:</label>
+    <input type="text" id="borrower_name" name="borrower_name" required>
+    <button type="submit">Borrow</button>
+</form>
+<a href="{% url 'book_list' %}">Back to Book List</a>

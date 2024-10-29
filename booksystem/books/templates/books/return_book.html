@@ -1,0 +1,8 @@
+<!-- books/templates/books/return_book.html -->
+<h1>Return {{ book.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <p>Borrowed by {{ borrow_record.borrower_name }} on {{ borrow_record.borrow_date }}</p>
+    <button type="submit">Return</button>
+</form>
+<a href="{% url 'book_list' %}">Back to Book List</a>

@@ -1,0 +1,17 @@
+<!-- books/templates/books/book_list.html -->
+<h1>Registered Books</h1>
+<a href="{% url 'register_book' %}">Register a New Book</a>
+<ul>
+    {% for book in books %}
+    <li>
+        {{ book.title }} by {{ book.author }} (Registered: {{ book.registered_date }})
+        {% if book.available %}
+            | <a href="{% url 'borrow_book' book.id %}">Borrow</a>
+        {% else %}
+            | <a href="{% url 'return_book' book.id %}">Return</a>
+        {% endif %}
+        | <a href="{% url 'update_book' book.id %}">Edit</a>
+        | <a href="{% url 'delete_book' book.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>

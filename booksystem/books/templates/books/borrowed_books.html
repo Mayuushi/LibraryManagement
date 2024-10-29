@@ -1,0 +1,17 @@
+<!-- books/templates/books/borrowed_books.html -->
+<h1>Borrowed Books</h1>
+<ul>
+    {% for record in borrowed_books %}
+        <li>
+            {{ record.book.title }} by {{ record.book.author }}
+            <br>Borrowed by: {{ record.borrower_name }}
+            <br>Borrowed on: {{ record.borrow_date|date:"F j, Y, g:i a" }}
+            <br><a href="{% url 'return_book' record.book.id %}">Return</a>
+        </li>
+    {% empty %}
+        <li>No books are currently borrowed.</li>
+    {% endfor %}
+</ul>
+
+<!-- Back to Book List Link -->
+<a href="{% url 'book_list' %}">Back to Book List</a>

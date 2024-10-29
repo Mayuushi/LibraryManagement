@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Layout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="placeholder.jpg" alt="Placeholder">
+    </div>
+    <nav class="menu">
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-search"></i> Search</a>
+      <a href="#"><i class="fas fa-book"></i> My Shelf</a>
+      <a href="#"><i class="fas fa-share-alt"></i> Contribute</a>
+    </nav>
+    <div class="footer">
+      <a href="#">About</a>
+      <a href="#">Support</a>
+      <a href="#">Terms & Conditions</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="search-section">
+        <select class="filter">
+          <option>All</option>
+        </select>
+        <input type="text" placeholder="Search" class="search-input">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+      </div>
+
+      <div class="options">
+        <button class="option-btn"><i class="fas fa-globe"></i> Lang</button>
+        <button class="option-btn"><i class="fas fa-clock"></i> 09:00 AM</button>
+        <button class="option-btn"><i class="fas fa-calendar-alt"></i> 4-Mar-2023</button>
+        <button class="profile-btn">Profile <i class="fas fa-caret-down"></i></button>
+      </div>
+    </div>
+
+    <!-- Content Area (for other sections, etc.) -->
+    <div class="content">
+        <!-- Quote and News Rack Container -->
+        <div class="quote-news-container">
+            <!-- Today's Quote Section -->
+            <div class="quote-card">
+                <p class="quote-text">"There is more treasure in books than in all the pirate's loot on Treasure Island."</p>
+                <p class="quote-author">- Walt Disney</p>
+            </div>
+    
+            <!-- News Rack Section -->
+            <div class="news-rack">
+                <h3 class="section-title">News Rack</h3>
+                <div class="news-carousel">
+                  <div class="card">
+                    <img src="images/sample.jpg" alt="The Hindu">
+                  </div>
+                  <div class="card">
+                    <img src="images/sample.jpg" alt="The Times of India">
+                  </div>
+                  <div class="card">
+                    <img src="images/sample.jpg" alt="Deccan Chronicle">
+                  </div>
+                  <div class="card">
+                    <img src="images/sample.jpg" alt="Hindustan Times">
+                  </div>
+                  <!-- Repeat as needed -->
+                </div>
+              </div>
+              
+        </div>
+      
+        <!-- Good Morning Section -->
+        <div class="greeting">
+          <h1>Good Morning</h1>
+        </div>
+      
+        <!-- Recommended for You Section -->
+        <div class="section">
+          <h2 class="section-heading">Recommended for You</h2>
+          <div class="cards-container">
+            <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                <div class="card-content">
+                  <p class="book-title">Sprint: How to Solve Big Problems</p>
+                  <p class="book-description">By Jake Knapp, 2000</p>
+                  <p class="book-rating">Rating: 4.5/5</p>
+                </div>
+              </div>
+              
+              <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                <div class="card-content">
+                  <p class="book-title">Sprint: How to Solve Big Problems</p>
+                  <p class="book-description">By Jake Knapp, 2000</p>
+                  <p class="book-rating">Rating: 4.5/5</p>
+                </div>
+              </div>
+              
+              <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                <div class="card-content">
+                  <p class="book-title">Sprint: How to Solve Big Problems</p>
+                  <p class="book-description">By Jake Knapp, 2000</p>
+                  <p class="book-rating">Rating: 4.5/5</p>
+                </div>
+              </div>
+              
+              <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                <div class="card-content">
+                  <p class="book-title">Sprint: How to Solve Big Problems</p>
+                  <p class="book-description">By Jake Knapp, 2000</p>
+                  <p class="book-rating">Rating: 4.5/5</p>
+                </div>
+              </div>
+              
+              <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                <div class="card-content">
+                  <p class="book-title">Sprint: How to Solve Big Problems</p>
+                  <p class="book-description">By Jake Knapp, 2000</p>
+                  <p class="book-rating">Rating: 4.5/5</p>
+                </div>
+              </div>
+              
+              <div class="card">
+                <img src="images/sample.jpg" alt="Book Cover">
+                
+              </div>
+            
+            <!-- Repeat .card for more items -->
+          </div>
+        </div>
+      
+        <!-- Recent Readings Section -->
+        <div class="section">
+          <h2 class="section-heading">Recent Readings</h2>
+          <div class="cards-container">
+            <div class="card">
+              <img src="sprint.jpg" alt="Book Cover">
+              <p>Sprint: How to solve big problems and test new ideas in just five days</p>
+              <p>Jake Knapp, 2000</p>
+              <p>Rating: 4.5/5</p>
+            </div>
+            <!-- Repeat .card for more items -->
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+</body>
+</html>

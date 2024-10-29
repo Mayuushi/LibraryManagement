@@ -1,0 +1,13 @@
+<!-- books/templates/books/available_books.html -->
+<h1>Available Books</h1>
+<ul>
+    {% for book in books %}
+        <li>
+            {{ book.title }} by {{ book.author }}
+            <a href="{% url 'borrow_book' book.id %}">Borrow</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'book_list' %}">Back to Book List</a>
+

@@ -1,0 +1,252 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="text-center">
+        <div class="logo-container mb-4">
+            <img src="https://www.cit.edu/wp-content/uploads/2020/05/CIT-U-Logo-2020.png" alt="CIT Logo" class="logo">
+        </div>
+        
+        <div class="title-container">
+            <h1 class="university-title">1111111HOME HOME HOME HOME<br>HOME</h1>
+            <h2 class="system-title">HOME HOME<br>HOME HOME</h2>
+        </div>
+        
+        <div class="registration-section">
+            <p class="select-text">Select Registration Type</p>
+            <div class="d-grid gap-3 col-lg-6 col-md-8 mx-auto">
+                <a href="{% url 'base:register' %}" class="registration-btn student-btn">
+                    <i class="fas fa-user-graduate me-2"></i>11 Student Registration
+                </a>
+                <a href="{% url 'base:admin_register' %}" class="registration-btn faculty-btn">
+                    <i class="fas fa-chalkboard-teacher me-2"></i>22 Faculty Registration
+                </a>
+            </div>
+        </div>
+        
+        <div class="login-section">
+            <p class="login-text">Already have an account? 
+                <a href="{% url 'base:login' %}" class="login-link">Log in</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #F5DEB3;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        background: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Logo Styles */
+    .logo-container {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .logo {
+        width: 150px;
+        transition: transform 0.5s ease;
+        position: relative;
+        z-index: 2;
+    }
+
+    .logo:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .logo::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+        top: 0;
+        left: 0;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .logo:hover::after {
+        opacity: 1;
+    }
+
+    /* Title Styles */
+    .title-container {
+        margin-bottom: 3rem;
+        animation: fadeInDown 1s ease-out;
+    }
+
+    .university-title {
+        color: #8B0000;
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        letter-spacing: 2px;
+    }
+
+    .system-title {
+        color: #8B0000;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Registration Section */
+    .registration-section {
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .select-text {
+        color: #8B0000;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+
+    .registration-btn {
+        background-color: #F5DEB3;
+        border: 2px solid #8B0000;
+        color: #8B0000;
+        padding: 1rem;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .registration-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(139, 0, 0, 0.2),
+            transparent
+        );
+        transition: all 0.5s;
+        z-index: -1;
+    }
+
+    .registration-btn:hover::before {
+        left: 100%;
+    }
+
+    .registration-btn:hover {
+        background-color: #8B0000;
+        color: #F5DEB3;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+    }
+
+    /* Login Section */
+    .login-section {
+        margin-top: 2rem;
+        animation: fadeIn 1.5s ease-out;
+    }
+
+    .login-text {
+        color: #8B0000;
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+    .login-link {
+        color: #8B0000;
+        text-decoration: none;
+        font-weight: bold;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .login-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #8B0000;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+
+    .login-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .university-title {
+            font-size: 1.8rem;
+        }
+        
+        .system-title {
+            font-size: 1.5rem;
+        }
+        
+        .registration-btn {
+            font-size: 1rem;
+            padding: 0.8rem;
+        }
+        
+        .logo {
+            width: 120px;
+        }
+    }
+</style>
+
+{% endblock %} 

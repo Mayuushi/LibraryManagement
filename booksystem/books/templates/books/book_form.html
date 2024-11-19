@@ -1,16 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register a New Book</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register a New Book</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: #2e3a46;
+      color: white;
+      width: 240px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h1 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar nav ul {
+      list-style: none;
+    }
+
+    .sidebar nav ul li {
+      margin: 1rem 0;
+    }
+
+    .sidebar nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .sidebar nav ul li a:hover {
+      color: #ff6347;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background-color: #ffffff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar input {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .topbar .actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .topbar .actions button {
+      padding: 0.5rem 1rem;
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .topbar .actions button:hover {
+      background-color: #ff4500;
+    }
+
+    /* Form Styling */
+    .form-container {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      margin: 2rem auto;
+    }
+
+    .form-container h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+      text-align: center;
+    }
+
+    .form-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-container input[type="text"],
+    .form-container textarea {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .form-container textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .form-container input[type="file"] {
+      font-size: 1rem;
+    }
+
+    .form-container button {
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #ff4500;
+    }
+  </style>
 </head>
 <body>
-    <h1>Register a New Book</h1>
-    <form method="POST" enctype="multipart/form-data">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h1>Library</h1>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Search</a></li>
+          <li><a href="#">My Shelf</a></li>
+          <li><a href="#">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+    <footer>
+      <p>About | Support | Terms & Conditions</p>
+    </footer>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <h1></h1>
+      <div class="actions">
+        <button>Profile</button>
+      </div>
+    </header>
+
+    <!-- Form Section -->
+    <div class="form-container">
+      <h1>Fill up Book Details</h1>
+      <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register Book</button>
-    </form>
+        <input type="text" name="title" placeholder="Book Name" required>
+        <input type="text" name="author" placeholder="Author Name" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

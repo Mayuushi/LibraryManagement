@@ -1,0 +1,192 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="register-container">
+        <!-- Header with Logo -->
+        <div class="text-center mb-4">
+            <img src="https://www.cit.edu/wp-content/uploads/2020/05/CIT-U-Logo-2020.png" alt="CIT Logo" style="width: 100px;">
+            <h2 class="mt-3 mb-4" style="color: #8B0000;">11 STUDENT REGISTRATION</h2>
+        </div>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <!-- Personal Information Section -->
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: #F5DEB3;">
+                    <h5 class="mb-0" style="color: #8B0000;">Personal Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label style="color: #8B0000;">Student ID</label>
+                            <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID" required>
+                            <small class="text-muted">Format: YYYY-XXXXX</small>
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color: #8B0000;">First Name</label>
+                            <input type="text" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color: #8B0000;">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label style="color: #8B0000;">Department/Course</label>
+                            <select name="course" class="form-control" required>
+                                <option value="">Select Department</option>
+                                <option value="BS in Computer Science">BS in Computer Science</option>
+                                <option value="BS in Information Technology">BS in Information Technology</option>
+                                <option value="BS in Computer Engineering">BS in Computer Engineering</option>
+                                <option value="BS in Civil Engineering">BS in Civil Engineering</option>
+                                <option value="BS in Mechanical Engineering">BS in Mechanical Engineering</option>
+                                <option value="BS in Architecture">BS in Architecture</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label style="color: #8B0000;">Year Level</label>
+                            <select name="year_level" class="form-control" required>
+                                <option value="">Select Year</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Birthdate</label>
+                        <input type="date" name="birthdate" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Contact Number</label>
+                        <input type="tel" name="contact_number" class="form-control" pattern="[0-9]{11}" placeholder="09XXXXXXXXX" required>
+                        <small class="text-muted">Format: 09XXXXXXXXX</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Address</label>
+                        <textarea name="address" class="form-control" rows="2" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information Section -->
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: #F5DEB3;">
+                    <h5 class="mb-0" style="color: #8B0000;">Account Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                        <small class="text-muted">This will be used for logging in.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Email Address</label>
+                        <input type="email" name="email" class="form-control" required>
+                        <small class="text-muted">Enter your active email address.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Password</label>
+                        <input type="password" name="password1" class="form-control" required>
+                        <small class="text-muted">Must be at least 8 characters long.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: #8B0000;">Confirm Password</label>
+                        <input type="password" name="password2" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn custom-btn">
+                    <i class="fas fa-user-graduate me-2"></i>Register as Student
+                </button>
+                <a href="{% url 'base:home' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Home
+                </a>
+            </div>
+        </form>
+        
+        <div class="text-center mt-4">
+            <p style="color: #8B0000;">Already have an account? 
+                <a href="{% url 'base:login' %}" class="login-link">
+                    <i class="fas fa-sign-in-alt me-1"></i>Login here
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .register-container {
+        max-width: 800px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(139, 0, 0, 0.1);
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+        border-bottom: 2px solid #8B0000;
+    }
+    
+    .form-control:focus {
+        border-color: #8B0000;
+        box-shadow: 0 0 0 0.2rem rgba(139, 0, 0, 0.25);
+    }
+    
+    .custom-btn {
+        background-color: #8B0000;
+        color: white;
+        padding: 0.8rem;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-btn:hover {
+        background-color: #5c0000;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .login-link {
+        color: #8B0000;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .login-link:hover {
+        color: #5c0000;
+        text-decoration: underline;
+    }
+</style>
+
+{% endblock %} 

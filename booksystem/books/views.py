@@ -3,14 +3,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, BorrowRecord
 from .forms import BookForm
 from django.utils import timezone
+from django.db.models import Q  # For complex queries
 
 def home(request):
     return HttpResponse("Welcome to the Book System!")
 
 # List all books
 def book_list(request):
-    books = Book.objects.all().order_by('-registered_date')
-    return render(request, 'books/book_list.html', {'books': books})
+    query = request.GET.get('q')  # Get the search term from the query parameters
+    if query:
+        books = Book.objects.filter(
+            Q(title__icontains=query) | Q(author__icontains=query)
+        ).order_by('-registered_date')  # Filter books based on title, author, or description
+    else:
+        books = Book.objects.all().order_by('-registered_date')  # Default: list all books
+    return render(request, 'books/book_list.html', {'books': books, 'query': query})
 
 # Register a new book
 def register_book(request):

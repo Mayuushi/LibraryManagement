@@ -182,10 +182,16 @@
       <h1>Library</h1>
       <nav>
         <ul>
+<<<<<<< HEAD
           <li><a href="{% url 'book_list' %}">Home</a></li>
           <li><a href="#">Search</a></li>
           <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
           <li><a href="#">Contribute</a></li>
+=======
+          <li><a href="#">Home</a></li>
+          <li><a href="#">My Shelf</a></li>
+          <li><a href="{% url 'register_book' %}">Contribute</a></li>
+>>>>>>> 55667d08c8d63ddaa27778a58c1e6f73d3b9d301
         </ul>
       </nav>
     </div>
@@ -198,12 +204,20 @@
   <div class="main">
     <!-- Top Bar -->
     <header class="topbar">
-      <input type="text" placeholder="Search books...">
+      <form method="GET" action="{% url 'book_list' %}">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search books..." 
+          value="{{ query|default:'' }}" 
+        >
+        <button type="submit">Search</button>
+      </form>
       <div class="actions">
         <button>Profile</button>
-        <button><a href="{% url 'register_book' %}">Create Book</a></button>
       </div>
     </header>
+    
 
     <!-- Book List -->
     <div class="content">

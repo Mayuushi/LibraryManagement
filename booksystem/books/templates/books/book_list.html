@@ -196,11 +196,20 @@
   <div class="main">
     <!-- Top Bar -->
     <header class="topbar">
-      <input type="text" placeholder="Search books...">
+      <form method="GET" action="{% url 'book_list' %}">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search books..." 
+          value="{{ query|default:'' }}" 
+        >
+        <button type="submit">Search</button>
+      </form>
       <div class="actions">
-        <button>Profile</button>  
+        <button>Profile</button>
       </div>
     </header>
+    
 
     <!-- Book List -->
     <div class="content">

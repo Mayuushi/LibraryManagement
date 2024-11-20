@@ -67,6 +67,10 @@
                     <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('confirm_password')">Show</button>
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="admin_code" class="form-label">Admin Access Code</label>
+                <input type="text" class="form-control" id="admin_code" name="admin_code" placeholder="Enter admin access code" required>
+            </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
             <div class="mt-3 text-center">
                 <span>Already a user? <a href="{% url 'login' %}" class="text-decoration-none">Login Here</a></span>

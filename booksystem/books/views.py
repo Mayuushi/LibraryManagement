@@ -4,6 +4,8 @@ from .models import Book, BorrowRecord
 from .forms import BookForm
 from django.utils import timezone
 from django.db.models import Q  # For complex queries
+from django.contrib.auth.decorators import login_required  # To ensure only logged-in users can access
+
 
 def home(request):
     return HttpResponse("Welcome to the Book System!")
@@ -73,15 +75,16 @@ def available_books(request):
     return render(request, 'books/available_books.html', {'books': books})
 
 # Borrow a book
+@login_required
 def borrow_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
-        borrower_name = request.POST.get('borrower_name')
         if book.available:
-            BorrowRecord.objects.create(book=book, borrower_name=borrower_name)
+            # Automatically use the logged-in user's name
+            BorrowRecord.objects.create(book=book, borrower_name=request.user.username)
             book.available = False
             book.save()
-            return redirect('available_books')
+            return redirect('book_list_user')
     return render(request, 'books/borrow_book.html', {'book': book})
 
 
@@ -95,12 +98,13 @@ def return_book(request, book_id):
             borrow_record.save()
             book.available = True
             book.save()
-            return redirect('borrowed_books')
+            return redirect('borrowed_books_user')
     return render(request, 'books/return_book.html', {'book': book, 'borrow_record': borrow_record})
 
 def borrowed_books(request):
     borrowed_books = BorrowRecord.objects.filter(return_date__isnull=True)  # Books currently borrowed
     return render(request, 'books/borrowed_books.html', {'borrowed_books': borrowed_books})
+
 # Borrowed books user
 def borrowed_books_users(request):
     borrowed_books = BorrowRecord.objects.filter(return_date__isnull=True)  # Books currently borrowed

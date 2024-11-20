@@ -182,10 +182,8 @@
         <h1>Library</h1>
         <nav>
           <ul>
-            <li><a href="{% url 'book_list' %}">Home</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
-            <li><a href="{% url 'register_book' %}">Contribute</a></li>
+            <li><a href="{% url 'book_list_user' %}">Home</a></li>
+            <li><a href="{% url 'borrowed_books_user' %}">My Shelf</a></li>
           </ul>
         </nav>
       </div>
@@ -217,11 +215,9 @@
       <h2>Borrow {{ book.title }}</h2>
       <form method="POST">
         {% csrf_token %}
-        <label for="borrower_name">Your Name:</label>
-        <input type="text" id="borrower_name" name="borrower_name" required>
+        <p>You are borrowing this book as <strong>{{ user.username }}</strong>.</p>
         <button type="submit">Borrow</button>
-    </form>
-    
+      </form>
     </div>
   </div>
 

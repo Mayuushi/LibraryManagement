@@ -39,35 +39,52 @@ def register(request):
 
 
 def admin_register(request):
-    if request.method == 'POST':
-        form = AdminRegisterForm(request.POST)
-        
-        # Check the admin access code
-        admin_code = request.POST.get('admin_code')
-        if not admin_code:
-            messages.error(request, "Admin access code is required.")
-            return redirect('admin_register')
-        elif admin_code != "123456":
-            messages.error(request, "Invalid admin access code.")
-            return redirect('admin_register')
+    """
+    Handles the registration of an admin user with enhanced error handling.
+    """
+    try:
+        if request.method == 'POST':
+            form = AdminRegisterForm(request.POST)
+            admin_code = request.POST.get('admin_code')
 
-        if form.is_valid():
-            try:
-                form.save()  # Save the admin user
-                messages.success(request, "Admin registered successfully!")
-                return redirect('login')
-            except ValidationError as e:
-                # Log or display the error details for debugging
-                messages.error(request, f"Error saving admin: {', '.join(e.messages)}")
+            # Validate admin code
+            if not admin_code:
+                messages.error(request, "Admin access code is required.")
+                return redirect('admin_register')
+
+            if admin_code != "123456":
+                messages.error(request, "Invalid admin access code.")
+                return redirect('admin_register')
+
+            # Validate form input
+            if form.is_valid():
+                try:
+                    # Save admin user with proper permissions
+                    admin = form.save(commit=False)
+                    admin.is_superuser = True
+                    admin.is_staff = True
+                    admin.save()
+                    messages.success(request, "Admin registered successfully!")
+                    return redirect('login')
+                except Exception as e:
+                    # Handle unexpected save errors
+                    messages.error(request, f"An error occurred while saving the admin user: {str(e)}")
+                    return redirect('admin_register')
+            else:
+                # Add detailed form errors to messages
+                for field, errors in form.errors.items():
+                    messages.error(request, f"{field.capitalize()}: {', '.join(errors)}")
+
         else:
-            # Provide feedback on invalid form inputs
-            messages.error(request, "Invalid username and password")
-            for field, errors in form.errors.items():
-                messages.error(request, f"{field.capitalize()}: {', '.join(errors)}")
-    else:
-        form = AdminRegisterForm()
+            form = AdminRegisterForm()
 
-    return render(request, 'accounts/admin_register.html', {'form': form})
+        return render(request, 'accounts/admin_register.html', {'form': form})
+
+    except Exception as e:
+        # Catch any unexpected errors
+        messages.error(request, f"An unexpected error occurred: {str(e)}")
+        return redirect('admin_register')
+
 
 def login_view(request):
     if request.method == "POST":

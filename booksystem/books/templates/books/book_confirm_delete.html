@@ -1,9 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registered Books</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: #2e3a46;
+      color: white;
+      width: 240px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sidebar h1 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar nav ul {
+      list-style: none;
+    }
+
+    .sidebar nav ul li {
+      margin: 1rem 0;
+    }
+
+    .sidebar nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .sidebar nav ul li a:hover {
+      color: #ff6347;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background-color: #ffffff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar input {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .topbar .actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .topbar .actions button {
+      padding: 0.5rem 1rem;
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .topbar .actions button:hover {
+      background-color: #ff4500;
+    }
+
+    /* Book List Section */
+    .content {
+      padding: 1.5rem;
+    }
+
+    .content h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .book-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .book-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-card p {
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .book-card .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .book-card .actions a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .book-card .actions a.borrow {
+      background-color: #28a745;
+    }
+
+    .book-card .actions a.return {
+      background-color: #ffc107;
+    }
+
+    .book-card .actions a.edit {
+      background-color: #007bff;
+    }
+
+    .book-card .actions a.delete {
+      background-color: #dc3545;
+    }
+
+    .book-card .actions a:hover {
+      opacity: 0.9;
+
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h1>Library</h1>
+      <nav>
+        <ul>
+          <li><a href="{% url 'book_list' %}">Home</a></li>
+          <li><a href="#">Search</a></li>
+          <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
+          <li><a href="{% url 'register_book' %}">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+    <footer>
+      <p>About | Support | Terms & Conditions</p>
+    </footer>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <form method="GET" action="{% url 'book_list' %}">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search books..." 
+          value="{{ query|default:'' }}" 
+        >
+        <button type="submit">Search</button>
+      </form>
+      <div class="actions">
+        <button>Profile</button>
+      </div>
+    </header>
+    
+
 <h1>Confirm Deletion</h1>
 <p>Are you sure you want to delete "{{ book.title }}"?</p>
 <form method="POST">
     {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'book_list' %}">Cancel</a>
+    <button type="submit">Delete</button>
+    <button><a href="{% url 'book_list' %}">Cancel</a></button>
 </form>
 
-<a href="{% url 'book_list' %}">Back to Book List</a>

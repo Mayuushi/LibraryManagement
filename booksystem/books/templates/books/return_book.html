@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registered Books</title>
+  <title>Return Book</title>
   <style>
     /* General Reset */
     * {
@@ -95,129 +95,106 @@
       background-color: #ff4500;
     }
 
-    /* Book List Section */
+    /* Content Section */
     .content {
-      padding: 1.5rem;
+      padding: 2rem;
     }
 
-    .content h2 {
+    .content h1 {
       margin-bottom: 1rem;
-      font-size: 1.5rem;
+      font-size: 2rem;
+      color: #333;
     }
 
-    .book-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .book-card {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .book-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-card p {
+    .content .details {
+      margin-bottom: 1.5rem; /* Reduced spacing */
+      font-size: 1rem; /* Smaller font size */
       color: #555;
+      background-color: #fff;
+      padding: 1rem; /* Reduced padding */
+      border-radius: 8px; /* Slightly smaller border radius */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Softer shadow */
+      width: 80%; /* Adjusted width to be smaller relative to the container */
+      max-width: 600px; /* Optional: restrict the maximum width */
+      margin-right: auto; /* Center align horizontally */
+    }
+    
+
+    .content .details p {
       margin-bottom: 1rem;
     }
 
-    .book-card .actions {
+    .content .actions {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
-    .book-card .actions a {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      padding: 0.5rem;
+    .content .actions button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
       border-radius: 5px;
-      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .content .actions .return-btn {
+      background-color: #28a745;
       color: white;
     }
 
-    .book-card .actions a.borrow {
-      background-color: #28a745;
-    }
-
-    .book-card .actions a.return {
-      background-color: #ffc107;
-    }
-
-    .book-card .actions a.edit {
-      background-color: #007bff;
-    }
-
-    .book-card .actions a.delete {
-      background-color: #dc3545;
-    }
-
-    .book-card .actions a:hover {
-      opacity: 0.9;
-
+    .content .actions .return-btn:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div>
-        <h1>Library</h1>
-        <nav>
-          <ul>
-            <li><a href="{% url 'book_list_user' %}">Home</a></li>
-            <li><a href="{% url 'borrowed_books_user' %}">My Shelf</a></li>
-          </ul>
-        </nav>
-      </div>
-      <footer>
-        <p>About | Support | Terms & Conditions</p>
-      </footer>
-    </aside>
-  
-    <!-- Main Content -->
-    <div class="main">
-      <!-- Top Bar -->
-      <header class="topbar">
-        <form method="GET" action="{% url 'book_list' %}">
-          <input 
-            type="text" 
-            name="q" 
-            placeholder="Search books..." 
-            value="{{ query|default:'' }}" 
-          >
-          <button type="submit">Search</button>
-        </form>
-        <div class="actions">
-          <button>Profile</button>
-        </div>
-      </header>
-    <!-- Book List -->
-    <h1>Return {{ book.title }}</h1>
-<form method="post">
-    {% csrf_token %}
-    <p>Borrowed by {{ borrow_record.borrower_name }} on {{ borrow_record.borrow_date }}</p>
-    <button type="submit">Return</button>
-</form>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h1>Library</h1>
+      <nav>
+        <ul>
+          <li><a href="{% url 'book_list_user' %}">Home</a></li>
+          <li><a href="{% url 'borrowed_books_user' %}">My Shelf</a></li>
+        </ul>
+      </nav>
+    </div>
+    <footer>
+      <p>About | Support | Terms & Conditions</p>
+    </footer>
+  </aside>
 
-      
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <form method="GET" action="{% url 'book_list' %}">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search books..." 
+          value="{{ query|default:'' }}" 
+        >
+        <button type="submit">Search</button>
+      </form>
+      <div class="actions">
+        <button>Profile</button>
+      </div>
+    </header>
+
+    <!-- Return Book Content -->
+    <div class="content">
+      <h1>Return Book: {{ book.title }}</h1>
+      <div class="details">
+        <p><strong>Borrowed By:</strong> {{ borrow_record.borrower_name }}</p>
+        <p><strong>Borrow Date:</strong> {{ borrow_record.borrow_date }}</p>
+        <form method="post" class="actions">
+          {% csrf_token %}
+          <button type="submit" class="return-btn">Return Book</button>
+        </form>
+      </div>
+     
+    </div>
   </div>
 </body>
 </html>

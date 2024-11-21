@@ -41,6 +41,6 @@ def update_book_availability_on_borrow(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=BorrowRecord)
 def update_book_availability_on_delete(sender, instance, **kwargs):
-    if not instance.return_date:  # Book is still borrowed
+    if  instance.return_date:  # Book is still borrowed
         instance.book.available = True
         instance.book.save()

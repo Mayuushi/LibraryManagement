@@ -14,7 +14,7 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f1f5f9;
       display: flex;
       min-height: 100vh;
     }
@@ -24,7 +24,7 @@
       background-color: #2e3a46;
       color: white;
       width: 240px;
-      padding: 1.5rem 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -33,6 +33,7 @@
     .sidebar h1 {
       font-size: 1.5rem;
       margin-bottom: 2rem;
+      color: #ff6347;
     }
 
     .sidebar nav ul {
@@ -47,6 +48,7 @@
       color: white;
       text-decoration: none;
       font-size: 1rem;
+      transition: color 0.3s ease;
     }
 
     .sidebar nav ul li a:hover {
@@ -173,6 +175,20 @@
       opacity: 0.9;
 
     }
+    .logout {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    
+    .logout:hover {
+      background-color: #c82333;
+    }
+    
   </style>
 </head>
 <body>
@@ -183,7 +199,6 @@
       <nav>
         <ul>
           <li><a href="{% url 'book_list' %}">Home</a></li>
-          <li><a href="#">Search</a></li>
           <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
           <li><a href="{% url 'register_book' %}">Contribute</a></li>
         </ul>
@@ -208,8 +223,14 @@
         <button type="submit">Search</button>
       </form>
       <div class="actions">
-        <button>Profile</button>
-      </div>
+        <a href="{% url 'view_profile' %}">
+          <button>Profile</button>
+        </a>
+        <form method="POST" action="{% url 'logout' %}" style="margin: 0;">
+          {% csrf_token %}
+          <button type="submit" class="logout">Logout</button>
+        </form>
+      </div>      
     </header>
     
 

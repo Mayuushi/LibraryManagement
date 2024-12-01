@@ -5,6 +5,10 @@ from .forms import BookForm
 from django.utils import timezone
 from django.db.models import Q  # For complex queries
 from django.contrib.auth.decorators import login_required  # To ensure only logged-in users can access
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
+from .forms import CustomUserEditForm
+from django.contrib.auth import update_session_auth_hash
 
 
 def home(request):
@@ -111,3 +115,50 @@ def borrowed_books(request):
 def borrowed_books_users(request):
     borrowed_books = BorrowRecord.objects.filter(return_date__isnull=True)  # Books currently borrowed
     return render(request, 'books/borrowed_books_user.html', {'borrowed_books': borrowed_books,'user': request.user})
+
+# View Profile
+# View Profile (Role-based Routing)
+@login_required
+def view_profile(request):
+    if request.user.is_staff:
+        return render(request, 'books/profile_view.html', {'user': request.user})  # Admin profile view
+    else:
+        return render(request, 'books/profile_view_user.html', {'user': request.user})  # Normal user profile view
+
+
+# Edit Profile (Role-based Routing)
+@login_required
+def edit_profile(request):
+    if request.user.is_staff:
+        return handle_profile_edit(request, 'books/profile_edit.html', 'view_profile')  # Admin profile edit
+    else:
+        return handle_profile_edit(request, 'books/profile_edit_user.html', 'profile_view_user')  # Normal user profile edit
+
+
+# Helper function for handling profile editing
+def handle_profile_edit(request, template_name, redirect_view_name):
+    user = request.user
+
+    if request.method == 'POST':
+        form = CustomUserEditForm(request.POST, instance=user)
+
+        if form.is_valid():
+            form.save()
+
+            # Handle password change
+            password = form.cleaned_data.get("password")
+            confirm_password = form.cleaned_data.get("confirm_password")
+
+            if password:
+                if password == confirm_password:
+                    user.set_password(password)
+                    user.save()
+                    update_session_auth_hash(request, user)  # Keep user logged in
+                else:
+                    form.add_error('confirm_password', 'The two passwords do not match.')
+
+            return redirect(redirect_view_name)
+    else:
+        form = CustomUserEditForm(instance=user)
+
+    return render(request, template_name, {'form': form})

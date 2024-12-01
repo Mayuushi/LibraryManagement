@@ -13,6 +13,7 @@ class AdminRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
+        
         user = super().save(commit=False)
         user.is_superuser = True  # Set superuser rights
         user.is_staff = True  # Set the admin rights

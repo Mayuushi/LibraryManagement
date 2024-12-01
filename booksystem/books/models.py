@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.contrib.auth.models import User
+
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -44,3 +46,5 @@ def update_book_availability_on_delete(sender, instance, **kwargs):
     if  instance.return_date:  # Book is still borrowed
         instance.book.available = True
         instance.book.save()
+
+

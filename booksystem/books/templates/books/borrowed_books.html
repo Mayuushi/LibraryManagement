@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registered Books</title>
+  <title>Borrowed Books</title>
   <style>
     /* General Reset */
     * {
@@ -14,7 +14,7 @@
 
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f1f5f9;
       display: flex;
       min-height: 100vh;
     }
@@ -24,7 +24,7 @@
       background-color: #2e3a46;
       color: white;
       width: 240px;
-      padding: 1.5rem 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -33,6 +33,7 @@
     .sidebar h1 {
       font-size: 1.5rem;
       margin-bottom: 2rem;
+      color: #ff6347;
     }
 
     .sidebar nav ul {
@@ -47,6 +48,7 @@
       color: white;
       text-decoration: none;
       font-size: 1rem;
+      transition: color 0.3s ease;
     }
 
     .sidebar nav ul li a:hover {
@@ -95,7 +97,7 @@
       background-color: #ff4500;
     }
 
-    /* Book List Section */
+    /* Content Section */
     .content {
       padding: 1.5rem;
     }
@@ -107,7 +109,7 @@
 
     .book-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
     }
 
@@ -123,9 +125,10 @@
 
     .book-card img {
       width: 100%;
-      height: auto;
+      height: 200px;
+      object-fit: cover;
       border-radius: 10px;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
 
     .book-card h3 {
@@ -135,105 +138,102 @@
 
     .book-card p {
       color: #555;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
-    .book-card .actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .book-card .actions a {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      padding: 0.5rem;
-      border-radius: 5px;
+    .book-card .borrow-details {
+      margin-top: 1rem;
       font-size: 0.9rem;
-      color: white;
+      color: #777;
     }
 
-    .book-card .actions a.borrow {
-      background-color: #28a745;
+    .no-books {
+      text-align: center;
+      color: #555;
+      font-size: 1rem;
+      margin-top: 2rem;
     }
-
-    .book-card .actions a.return {
-      background-color: #ffc107;
-    }
-
-    .book-card .actions a.edit {
-      background-color: #007bff;
-    }
-
-    .book-card .actions a.delete {
+    .logout {
       background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
     }
-
-    .book-card .actions a:hover {
-      opacity: 0.9;
-
+    
+    .logout:hover {
+      background-color: #c82333;
     }
+    
   </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div>
-        <h1>Library</h1>
-        <nav>
-          <ul>
-            <li><a href="{% url 'book_list' %}">Home</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
-            <li><a href="{% url 'register_book' %}">Contribute</a></li>
-          </ul>
-        </nav>
-      </div>
-      <footer>
-        <p>About | Support | Terms & Conditions</p>
-      </footer>
-    </aside>
-  
-    <!-- Main Content -->
-    <div class="main">
-      <!-- Top Bar -->
-      <header class="topbar">
-        <form method="GET" action="{% url 'book_list' %}">
-          <input 
-            type="text" 
-            name="q" 
-            placeholder="Search books..." 
-            value="{{ query|default:'' }}" 
-          >
-          <button type="submit">Search</button>
-        </form>
-        <div class="actions">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <h1>Library</h1>
+      <nav>
+        <ul>
+          <li><a href="{% url 'book_list' %}">Home</a></li>
+          <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
+          <li><a href="{% url 'register_book' %}">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+    <footer>
+      <p>About | Support | Terms & Conditions</p>
+    </footer>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <form method="GET" action="{% url 'book_list' %}">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search books..." 
+          value="{{ query|default:'' }}" 
+        >
+        <button type="submit">Search</button>
+      </form>
+      <div class="actions">
+        <a href="{% url 'view_profile' %}">
           <button>Profile</button>
-        </div>
-      </header>
+        </a>
+        <form method="POST" action="{% url 'logout' %}" style="margin: 0;">
+          {% csrf_token %}
+          <button type="submit" class="logout">Logout</button>
+        </form>
+      </div>
+    </header>
 
     <!-- Book List -->
     <div class="content">
-        <h2>Borrowed Books</h2>
-        <div class="book-list">
-          {% for record in borrowed_books %}
-          <div class="book-card">
-            {% if record.book.image %}
-              <img src="{{ record.book.image.url }}">
-            {% endif %}
-            <h3>{{ record.book.title }}</h3>
-            <p>By {{ record.book.author }}</p>
+      <h2>Borrowed Books</h2>
+      <div class="book-list">
+        {% for record in borrowed_books %}
+        <div class="book-card">
+          {% if record.book.image %}
+            <img src="{{ record.book.image.url }}" alt="{{ record.book.title }}">
+          {% endif %}
+          <h3>{{ record.book.title }}</h3>
+          <p>By {{ record.book.author }}</p>
+          <div class="borrow-details">
             <p>Borrowed by: {{ record.borrower_name }}</p>
             <p>Borrowed on: {{ record.borrow_date|date:"F j, Y, g:i a" }}</p>
           </div>
-          {% empty %}
-          <div class="book-card">
-            <p>No books are currently borrowed.</p>
-          </div>
-          {% endfor %}
         </div>
+        {% empty %}
+        <div class="no-books">
+          <p>No books are currently borrowed.</p>
+        </div>
+        {% endfor %}
       </div>
-      
+    </div>
   </div>
 </body>
 </html>

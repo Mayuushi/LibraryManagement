@@ -6,8 +6,35 @@ from django.db.models import Q  # For complex queries
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 
+def delete_borrow_record(request, record_id):
+    if request.method == 'POST':
+        record = get_object_or_404(BorrowRecord, id=record_id)
+        record.delete()
+    return redirect('borrowed_books_admin')
+
+def edit_book(request, pk):
+    """
+    View to edit a book's details.
+    """
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('all_books')  # Redirect to the list of all books
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'books/book_form.html', {'form': form, 'book': book})
+
+def all_books(request):
+    """
+    View to display all books in the system with their availability and status.
+    """
+    books = Book.get_all_books_with_status()
+    return render(request, 'books/all_books.html', {'books': books})
 # Check if user is an admin
 def is_admin(user):
     return user.is_superuser

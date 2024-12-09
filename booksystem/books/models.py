@@ -31,10 +31,10 @@ class BorrowRecord(models.Model):
         return f"{self.borrower_name} borrowed {self.book.title}"
 
     def mark_as_returned(self):
-        """Marks the book as returned and sets its availability."""
-        self.return_date = timezone.now()
-        self.book.available = True
-        self.book.save()
+        self.return_date = timezone.now()  # Set return date
+        self.save()                        # Save BorrowRecord first
+        self.book.available = True         # Mark book as available
+        self.book.save()                   # Save book changes
 @receiver(post_save, sender=BorrowRecord)
 def update_book_availability_on_borrow(sender, instance, created, **kwargs):
     if created:

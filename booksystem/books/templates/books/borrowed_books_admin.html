@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registered Books</title>
   <style>
-    /* General Reset */
-    * {
+   /* General Reset */
+   * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -188,75 +188,102 @@
     .logout:hover {
       background-color: #c82333;
     }
-    
+
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div>
-      <h1>Library</h1>
-      <nav>
-        <ul>
-          <li><a href="{% url 'book_list' %}">Home</a></li>
-          <li><a href="{% url 'borrowed_books_admin' %}">My Shelf</a></li>
-          <li><a href="{% url 'register_book' %}">Contribute</a></li>
-          <li><a href="{% url 'all_users' %}">View All Users</a></li>
-        </ul>
-      </nav>
-      
-
-    </div>
-    <footer>
-      <p>About | Support | Terms & Conditions</p>
-    </footer>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="main">
-    <!-- Top Bar -->
-    <header class="topbar">
-      <form method="GET" action="{% url 'book_list' %}">
-        <input 
-          type="text" 
-          name="q" 
-          placeholder="Search books..." 
-          value="{{ query|default:'' }}" 
-        >
-        <button type="submit">Search</button>
-      </form>
-      <div class="actions">
-        <a href="{% url 'view_profile' %}">
-          <button>Profile</button>
-        </a>
-        <form method="POST" action="{% url 'logout' %}" style="margin: 0;">
-          {% csrf_token %}
-          <button type="submit" class="logout">Logout</button>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <h1>Library</h1>
+        <nav>
+          <ul>
+            <li><a href="{% url 'book_list' %}">Home</a></li>
+            <li><a href="{% url 'borrowed_books_admin' %}">My Shelf</a></li>
+            <li><a href="{% url 'register_book' %}">Contribute</a></li>
+            <li><a href="{% url 'all_users' %}">View All Users</a></li>
+          </ul>
+        </nav>
+      </div>
+      <footer>
+        <p>About | Support | Terms & Conditions</p>
+      </footer>
+    </aside>
+  
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <form method="GET" action="{% url 'book_list' %}">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Search books..." 
+            value="{{ query|default:'' }}" 
+          >
+          <button type="submit">Search</button>
         </form>
-      </div>      
-    </header>
-    
+        <div class="actions">
+          <button>Profile</button>
+        </div>
+      </header>
 
     <!-- Book List -->
-    <div class="content">
-      <h2>Registered Books</h2>
-      <div class="book-list">
-        {% for book in books %}
-        <div class="book-card">
-          {% if book.image %}
-          <img src="{{ book.image.url }}">
-          {% endif %}
-          <h3>{{ book.title }}</h3>
-          <p>By {{ book.author }}</p>
-          <p>Registered: {{ book.registered_date }}</p>
-          <div class="actions">
-            <a href="{% url 'update_book' book.id %}" class="edit">Edit</a>
-            <a href="{% url 'delete_book' book.id %}" class="delete">Delete</a>
-          </div>
-        </div>
+    <h1>Borrowed Books Admin View</h1>
+<table border="1" style="width: 100%; text-align: left; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Borrower Name</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in borrowed_books %}
+        <tr>
+            <td>{{ record.book.title }}</td>
+            <td>{{ record.borrower_name }}</td>
+            <td>{{ record.borrow_date|date:"F j, Y, g:i a" }}</td>
+            <td>
+                {% if record.return_date %}
+                    {{ record.return_date|date:"F j, Y, g:i a" }}
+                {% else %}
+                    Not yet returned
+                {% endif %}
+            </td>
+            <td>
+                {% if record.return_date %}
+                    Returned
+                {% else %}
+                    Borrowed
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="record_id" value="{{ record.id }}">
+                    {% if record.return_date %}
+                        <button type="submit" name="status" value="borrowed">Mark as Borrowed</button>
+                    {% else %}
+                        <button type="submit" name="status" value="returned">Mark as Returned</button>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No records found.</td>
+        </tr>
         {% endfor %}
-      </div>
-    </div>
+    </tbody>
+</table>
+
+
+
+      
   </div>
 </body>
 </html>

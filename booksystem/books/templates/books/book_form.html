@@ -173,13 +173,14 @@
   <aside class="sidebar">
     <div>
       <h1>Library</h1>
-      <nav>
-        <ul>
-          <li><a href="{% url 'book_list' %}">Home</a></li>
-          <li><a href="{% url 'borrowed_books' %}">My Shelf</a></li>
-          <li><a href="{% url 'register_book' %}">Contribute</a></li>
-        </ul>
-      </nav>
+        <nav>
+          <ul>
+            <li><a href="{% url 'book_list' %}">Home</a></li>
+            <li><a href="{% url 'borrowed_books_admin' %}">My Shelf</a></li>
+            <li><a href="{% url 'register_book' %}">Contribute</a></li>
+            <li><a href="{% url 'all_users' %}">View All Users</a></li>
+          </ul>
+        </nav>
     </div>
     <footer>
       <p>About | Support | Terms & Conditions</p>

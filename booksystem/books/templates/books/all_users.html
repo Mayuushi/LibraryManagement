@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registered Books</title>
+  <title>All Users</title>
   <style>
     /* General Reset */
     * {
@@ -97,7 +97,7 @@
       background-color: #ff4500;
     }
 
-    /* Book List Section */
+    /* User List Table */
     .content {
       padding: 1.5rem;
     }
@@ -107,74 +107,33 @@
       font-size: 1.5rem;
     }
 
-    .book-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .book-card {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .book-card img {
+    table {
       width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .book-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-card p {
-      color: #555;
-      margin-bottom: 1rem;
-    }
-
-    .book-card .actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .book-card .actions a {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      padding: 0.5rem;
-      border-radius: 5px;
-      font-size: 0.9rem;
+    table thead {
+      background-color: #2e3a46;
       color: white;
     }
 
-    .book-card .actions a.borrow {
-      background-color: #28a745;
+    table th, table td {
+      padding: 1rem;
+      text-align: left;
+      border: 1px solid #ddd;
     }
 
-    .book-card .actions a.return {
-      background-color: #ffc107;
+    table tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
     }
 
-    .book-card .actions a.edit {
-      background-color: #007bff;
+    table tbody tr:hover {
+      background-color: #f1f1f1;
     }
 
-    .book-card .actions a.delete {
-      background-color: #dc3545;
-    }
-
-    .book-card .actions a:hover {
-      opacity: 0.9;
-
-    }
     .logout {
       background-color: #dc3545;
       color: white;
@@ -184,11 +143,10 @@
       cursor: pointer;
       text-align: center;
     }
-    
+
     .logout:hover {
       background-color: #c82333;
     }
-    
   </style>
 </head>
 <body>
@@ -204,8 +162,6 @@
           <li><a href="{% url 'all_users' %}">View All Users</a></li>
         </ul>
       </nav>
-      
-
     </div>
     <footer>
       <p>About | Support | Terms & Conditions</p>
@@ -236,26 +192,42 @@
       </div>      
     </header>
     
-
-    <!-- Book List -->
+    <!-- User List -->
     <div class="content">
-      <h2>Registered Books</h2>
-      <div class="book-list">
-        {% for book in books %}
-        <div class="book-card">
-          {% if book.image %}
-          <img src="{{ book.image.url }}">
-          {% endif %}
-          <h3>{{ book.title }}</h3>
-          <p>By {{ book.author }}</p>
-          <p>Registered: {{ book.registered_date }}</p>
-          <div class="actions">
-            <a href="{% url 'update_book' book.id %}" class="edit">Edit</a>
-            <a href="{% url 'delete_book' book.id %}" class="delete">Delete</a>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+      <h2>Registered Users</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Is Admin</th>
+            <th>Date Joined</th>
+            <th>Change Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.is_superuser|yesno:"Yes,No" }}</td>
+            <td>{{ user.date_joined|date:"F j, Y, g:i a" }}</td>
+            <td>
+              <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <select name="user_type">
+                  <option value="user" {% if not user.is_superuser %}selected{% endif %}>User</option>
+                  <option value="admin" {% if user.is_superuser %}selected{% endif %}>Admin</option>
+                </select>
+                <button type="submit">Update</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
     </div>
   </div>
 </body>

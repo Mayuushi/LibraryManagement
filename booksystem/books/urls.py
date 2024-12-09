@@ -20,5 +20,11 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),  # Edit profile
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),  # Logout
     path('admin/users/', views.all_users, name='all_users'),
+    path('books/all/', views.all_books, name='all_books'),
+    path('books/edit/<int:pk>/', views.edit_book, name='edit_book'),
+    path('borrowed_books/delete/<int:record_id>/', views.delete_borrow_record, name='delete_borrow_record'),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from datetime import timedelta
+
+
 
 
 class Book(models.Model):
@@ -33,6 +36,7 @@ class BorrowRecord(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     borrower_name = models.CharField(max_length=200)
     borrow_date = models.DateTimeField(default=timezone.now)
+    due_date = models.DateTimeField(default=timezone.now() + timedelta(days=5))  # New field
     return_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
@@ -43,6 +47,7 @@ class BorrowRecord(models.Model):
         self.save()                        # Save BorrowRecord first
         self.book.available = True         # Mark book as available
         self.book.save()                   # Save book changes
+        
 @receiver(post_save, sender=BorrowRecord)
 def update_book_availability_on_borrow(sender, instance, created, **kwargs):
     if created:

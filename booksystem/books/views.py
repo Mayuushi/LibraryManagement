@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from datetime import timedelta
+
 
 
 def delete_borrow_record(request, record_id):
@@ -142,13 +144,21 @@ def delete_book(request, pk):
 @login_required
 def borrow_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
+    due_date = timezone.now() + timedelta(days=5)  # Calculate the due date
+    
     if request.method == 'POST':
         if book.available:
-            BorrowRecord.objects.create(book=book, borrower_name=request.user.username)
+            BorrowRecord.objects.create(
+                book=book, 
+                borrower_name=request.user.username,
+                due_date=due_date
+            )
             book.available = False
             book.save()
             return redirect('book_list_user')
-    return render(request, 'books/borrow_book.html', {'book': book, 'user': request.user})
+    
+    return render(request, 'books/borrow_book.html', {'book': book, 'user': request.user, 'due_date': due_date})
+
 
 
 # Return a book
